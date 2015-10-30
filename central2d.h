@@ -180,8 +180,9 @@ private:
 
     // access the (ix, iy) element of the tno'th subdomain, ix and iy are relative 
     // indices 0 <= ix, iy < domain_nx, domain_ny
-    int offset(int ix, int iy, int tno) const { 
-        return (nghost+iy+(tno/nodomains)*domain_ny_inc_ghost)*nx_all + (tno%nodomains)*domain_nx_inc_ghost + nghost + ix; 
+    int offset(int ix, int iy, int tno) const {
+        return (tno * domain_nx_inc_ghost * domain_ny_inc_ghost) + (( nghost + iy) * domain_nx_inc_ghost) + nghost + ix;
+        //return (nghost+iy+(tno/nodomains)*domain_ny_inc_ghost)*nx_all + (tno%nodomains)*domain_nx_inc_ghost + nghost + ix; 
     }
     
     // access the (ix, iy) element of the tno'th subdomain, ix and iy are absolute  
@@ -201,7 +202,8 @@ private:
     // access the (ix, iy) element of the tno'th subdomain, ix and iy are relative 
     // indices 0 <= ix, iy < domain_nx_inc_ghost, domain_ny_inc_ghost
     int offsetg (int ix, int iy, int tno) const {
-        return (iy+(tno/nodomains)*domain_ny_inc_ghost)*nx_all + (tno%nodomains)*domain_nx_inc_ghost + ix;
+        return (tno * domain_nx_inc_ghost * domain_ny_inc_ghost) + (iy * domain_nx_inc_ghost) + ix;
+        //return (iy+(tno/nodomains)*domain_ny_inc_ghost)*nx_all + (tno%nodomains)*domain_nx_inc_ghost + ix;
     }
     
     int offsetres (int ix, int iy) const {
